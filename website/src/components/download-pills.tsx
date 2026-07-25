@@ -10,15 +10,12 @@ interface DownloadPillsProps {
 }
 
 export const DownloadPills: React.FC<DownloadPillsProps> = ({ version = 'v0.1.0' }) => {
-  const x64DownloadUrl = '/downloads/Local_MCP_File_Organizer_0.1.0_x64-setup.exe';
-  const arm64DownloadUrl = '/downloads/Local_MCP_File_Organizer_0.1.0_arm64-setup.exe';
-
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-8">
-      {/* Primary Pill: x64 Windows Installer */}
+      {/* Primary Pill: x64 Windows Installer (filemind.exe) */}
       <motion.a
-        href={x64DownloadUrl}
-        download="Local_MCP_File_Organizer_x64.exe"
+        href="/api/download?arch=x64"
+        download="filemind.exe"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -27,13 +24,13 @@ export const DownloadPills: React.FC<DownloadPillsProps> = ({ version = 'v0.1.0'
         className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-white text-black font-medium text-sm transition-all shadow-lg cursor-pointer select-none"
       >
         <Download className="w-4 h-4 text-black transition-transform group-hover:-translate-y-0.5" />
-        <span>Download for x64</span>
+        <span>Download for Windows (.exe)</span>
       </motion.a>
 
       {/* Secondary Pill: ARM64 Windows Installer */}
       <motion.a
-        href={arm64DownloadUrl}
-        download="Local_MCP_File_Organizer_arm64.exe"
+        href="/api/download?arch=arm64"
+        download="filemind.exe"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}

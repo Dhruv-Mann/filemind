@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { FolderGit2, ShieldCheck, Heart } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
         <div className="flex items-center gap-6 text-neutral-400">
           <a href="/docs" className="hover:text-white transition-colors">Docs</a>
           <a href="https://github.com/Dhruv-Mann/filemind" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
-          <a href="/downloads/Local_MCP_File_Organizer_0.1.0_x64-setup.exe" download className="hover:text-white transition-colors">Windows .exe</a>
+          <a href="/api/download?arch=x64" download="filemind.exe" className="hover:text-white transition-colors">Windows .exe</a>
         </div>
 
         <div className="flex items-center gap-1.5 text-neutral-500">

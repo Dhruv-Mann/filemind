@@ -115,8 +115,8 @@ export default function DocsPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <a
-                href="/downloads/Local_MCP_File_Organizer_0.1.0_x64-setup.exe"
-                download
+                href="/api/download?arch=x64"
+                download="filemind.exe"
                 className="p-5 rounded-xl bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-colors flex items-center justify-between group"
               >
                 <div>
@@ -127,8 +127,8 @@ export default function DocsPage() {
               </a>
 
               <a
-                href="/downloads/Local_MCP_File_Organizer_0.1.0_arm64-setup.exe"
-                download
+                href="/api/download?arch=arm64"
+                download="filemind.exe"
                 className="p-5 rounded-xl bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-colors flex items-center justify-between group"
               >
                 <div>

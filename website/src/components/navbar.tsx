@@ -41,8 +41,8 @@ export const Navbar: React.FC = () => {
 
         {/* Quick Download Navbar Action */}
         <a
-          href="/downloads/Local_MCP_File_Organizer_0.1.0_x64-setup.exe"
-          download
+          href="/api/download?arch=x64"
+          download="filemind.exe"
           className="inline-flex items-center gap-2 text-xs font-medium px-4 py-2 rounded-full bg-white text-black hover:bg-neutral-200 transition-colors shadow-sm"
         >
           <Download className="w-3.5 h-3.5 text-black" />
