@@ -8,7 +8,14 @@ export const Footer: React.FC = () => {
     <footer className="w-full bg-black border-t border-neutral-900 px-6 sm:px-12 py-12 text-neutral-400 text-xs">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
-          <span className="text-white font-medium">Built by Dhruv Mann</span>
+          <a
+            href="https://github.com/Dhruv-Mann"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-neutral-400 hover:text-white transition-colors font-medium"
+          >
+            Built by Dhruv Mann
+          </a>
         </div>
 
         <div className="flex items-center gap-6 text-neutral-400">
