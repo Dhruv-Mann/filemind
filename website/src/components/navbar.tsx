@@ -30,7 +30,7 @@ export const Navbar: React.FC = () => {
           <span>Docs</span>
         </Link>
         <a
-          href="https://github.com"
+          href="https://github.com/Dhruv-Mann/filemind"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden sm:inline-flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors"

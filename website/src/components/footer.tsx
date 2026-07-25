@@ -15,8 +15,8 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-6 text-neutral-400">
-          <a href="#features" className="hover:text-white transition-colors">Features</a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
+          <a href="/docs" className="hover:text-white transition-colors">Docs</a>
+          <a href="https://github.com/Dhruv-Mann/filemind" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
           <a href="/downloads/Local_MCP_File_Organizer_0.1.0_x64-setup.exe" download className="hover:text-white transition-colors">Windows .exe</a>
         </div>
 
