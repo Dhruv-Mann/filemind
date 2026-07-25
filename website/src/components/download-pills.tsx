@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Download, Monitor, BookOpen } from 'lucide-react';
+import { Download, Apple, BookOpen } from 'lucide-react';
 
 interface DownloadPillsProps {
   version?: string;
@@ -12,7 +12,7 @@ interface DownloadPillsProps {
 export const DownloadPills: React.FC<DownloadPillsProps> = ({ version = 'v0.1.0' }) => {
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-8">
-      {/* Primary Pill: x64 Windows Installer (filemind.exe) */}
+      {/* Primary Pill: Windows Executable (.exe) */}
       <motion.a
         href="/api/download?arch=x64"
         download="filemind.exe"
@@ -27,10 +27,10 @@ export const DownloadPills: React.FC<DownloadPillsProps> = ({ version = 'v0.1.0'
         <span>Download for Windows (.exe)</span>
       </motion.a>
 
-      {/* Secondary Pill: ARM64 Windows Installer */}
+      {/* Secondary Pill: macOS Installer (.dmg) */}
       <motion.a
-        href="/api/download?arch=arm64"
-        download="filemind.exe"
+        href="/api/download?platform=mac"
+        download="filemind.dmg"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -38,8 +38,8 @@ export const DownloadPills: React.FC<DownloadPillsProps> = ({ version = 'v0.1.0'
         whileTap={{ scale: 0.97 }}
         className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-neutral-900/90 text-white font-medium text-sm border border-neutral-700/80 backdrop-blur-md transition-all cursor-pointer select-none hover:border-neutral-500"
       >
-        <Monitor className="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" />
-        <span>Download for ARM64</span>
+        <Apple className="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" />
+        <span>Download for macOS (.dmg)</span>
       </motion.a>
 
       {/* Docs Button */}
