@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Production builds
+dist/
+dist-tauri/
+build/
+
+# Rust build artifacts
+src-tauri/target/
+src-tauri/*.pdb
+
+# SQLite databases & temp data
+*.db
+*.db-journal
+*.db-wal
+*.tmp
+*.log
+
+# Environment & IDE
+.env
+.env.local
+.vscode/
+.idea/
+*.suo
+*.user
+
+# OS generated files
+.DS_Store
+Thumbs.db
