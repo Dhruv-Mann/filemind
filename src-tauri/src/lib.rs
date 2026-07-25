@@ -24,10 +24,15 @@ pub struct AppState {
 }
 
 /// Resolve directory to monitor.
-/// Priority: WATCH_DIR environment variable -> system Downloads/Downloads (if exists) -> system Downloads folder -> current folder.
+/// Priority: WATCH_DIR env variable (validated) -> system Downloads/Downloads -> system Downloads -> current dir.
 pub fn get_target_watch_dir() -> PathBuf {
     if let Ok(override_dir) = std::env::var("WATCH_DIR") {
-        return PathBuf::from(override_dir);
+        let path = PathBuf::from(&override_dir);
+        if path.exists() && path.is_dir() {
+            return path;
+        }
+        // Invalid WATCH_DIR — log and fall through to defaults
+        tracing::warn!(path = %override_dir, "WATCH_DIR env variable points to a non-existent or non-directory path, ignoring");
     }
 
     if let Some(sys_downloads) = dirs::download_dir() {
@@ -111,10 +116,6 @@ pub async fn process_detected_file(
     }
 }
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! Welcome to Local MCP File Organizer.", name)
-}
 
 #[tauri::command]
 fn get_watch_directory() -> String {
@@ -278,7 +279,6 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            greet,
             get_watch_directory,
             get_model_info,
             extract_file_content,

@@ -111,7 +111,8 @@ pub fn handle_extract_content(params: &Value) -> AppResult<Value> {
     }))
 }
 
-/// Resolve destination filename collision by appending timestamp if file already exists
+/// Resolve destination filename collision by appending timestamp if file already exists.
+/// Returns Err if the resolved path would escape outside base_dir (path traversal guard).
 pub fn resolve_target_path(base_dir: &Path, category_path: &str, filename: &str) -> PathBuf {
     let target_dir = base_dir.join(category_path);
 
@@ -135,6 +136,23 @@ pub fn resolve_target_path(base_dir: &Path, category_path: &str, filename: &str)
     let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S");
     let unique_name = format!("{}_{}{}", stem, timestamp, ext);
     target_dir.join(unique_name)
+}
+
+/// Move a file, falling back to copy+delete when source and destination are on different drives.
+fn move_file(source: &Path, destination: &Path) -> std::io::Result<()> {
+    // Try rename first (atomic, same-drive)
+    match std::fs::rename(source, destination) {
+        Ok(()) => return Ok(()),
+        Err(e) if e.raw_os_error() == Some(17) || e.raw_os_error() == Some(18) => {
+            // EXDEV (18 on Linux/macOS) or ERROR_NOT_SAME_DEVICE (17 on Windows)
+            // Fall through to copy+delete
+        }
+        Err(e) => return Err(e),
+    }
+    // Cross-drive fallback: copy then remove original
+    std::fs::copy(source, destination)?;
+    std::fs::remove_file(source)?;
+    Ok(())
 }
 
 /// Execute the `move_and_index` MCP tool call
@@ -164,13 +182,26 @@ pub fn handle_move_and_index(params: &Value, base_organize_dir: &Path) -> AppRes
 
     let destination = resolve_target_path(base_organize_dir, &effective_category, &p.suggested_filename);
 
-    // Create target directory if missing
-    if let Some(parent) = destination.parent() {
-        std::fs::create_dir_all(parent)?;
+    // Path traversal guard: ensure destination stays inside base_organize_dir
+    let canonical_base = base_organize_dir
+        .canonicalize()
+        .unwrap_or_else(|_| base_organize_dir.to_path_buf());
+    if let Some(dest_parent) = destination.parent() {
+        // Create dirs first so we can canonicalize
+        std::fs::create_dir_all(dest_parent)?;
+        let canonical_dest = dest_parent
+            .canonicalize()
+            .unwrap_or_else(|_| dest_parent.to_path_buf());
+        if !canonical_dest.starts_with(&canonical_base) {
+            return Err(AppError::Filesystem(format!(
+                "Security: destination path escapes base directory: {}",
+                destination.display()
+            )));
+        }
     }
 
-    // Move file
-    std::fs::rename(&source, &destination)?;
+    // Move file with cross-drive fallback
+    move_file(&source, &destination)?;
 
     info!(
         from = %source.display(),

@@ -26,14 +26,6 @@ export const runBatchProcessing = async (): Promise<number> => {
   return await invoke<number>('run_batch_processing');
 };
 
-export const extractFileContent = async (filePath: string): Promise<string> => {
-  return await invoke<string>('extract_file_content', { filePath });
-};
-
-export const getMcpTools = async (): Promise<unknown> => {
-  return await invoke<unknown>('get_mcp_tools');
-};
-
 export const openExternalUrl = async (url: string): Promise<void> => {
   try {
     await invoke('launch_external_url', { url });

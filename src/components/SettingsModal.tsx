@@ -5,7 +5,7 @@ interface SettingsModalProps {
   onModelChange: (model: string) => void;
 }
 
-export function SettingsModal({ isOpen, onClose, modelName, onModelChange }: SettingsModalProps) {
+export function SettingsModal({ isOpen, onClose, modelName }: SettingsModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -31,14 +31,13 @@ export function SettingsModal({ isOpen, onClose, modelName, onModelChange }: Set
         <div className="space-y-4 font-body-sm text-body-sm">
           <div className="space-y-1">
             <label className="text-on-surface-variant block">Active Local Ollama LLM Model</label>
-            <input
-              type="text"
-              value={modelName}
-              onChange={(e) => onModelChange(e.target.value)}
-              className="w-full bg-surface-container-lowest border border-outline-variant rounded h-10 px-3 font-body-sm text-on-surface focus:border-primary focus:outline-none"
-              placeholder="e.g. qwen3.5:4b"
-            />
-            <p className="text-[12px] text-outline">Runs 100% locally on http://localhost:11434</p>
+            <div className="w-full bg-surface-container-lowest border border-outline-variant rounded h-10 px-3 font-body-sm text-on-surface flex items-center select-text">
+              {modelName || 'qwen3.5:4b'}
+            </div>
+            <p className="text-[12px] text-outline">
+              Runs 100% locally on http://localhost:11434 — change via{' '}
+              <code className="font-mono bg-surface-container px-1 rounded">OLLAMA_MODEL</code> env variable.
+            </p>
           </div>
 
           <div className="space-y-1 pt-2">
@@ -61,7 +60,7 @@ export function SettingsModal({ isOpen, onClose, modelName, onModelChange }: Set
             onClick={onClose}
             className="bg-blue-600 hover:bg-blue-700 text-white font-body-sm text-body-sm px-5 py-2 rounded transition-colors cursor-pointer"
           >
-            Save & Close
+            Close
           </button>
         </div>
       </div>

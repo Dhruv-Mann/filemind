@@ -133,10 +133,9 @@ Respond ONLY with a single JSON object matching this schema. No reasoning or mar
             Ok(res) if res.status().is_success() => {
                 if let Ok(gen_res) = res.json::<GenerateResponse>().await {
                     info!(raw_output = %gen_res.response, "Received response from local LLM");
-                    if let Ok(parsed) = clean_and_parse_json(&gen_res.response) {
-                        return Ok(parsed);
-                    } else if let Err(err) = clean_and_parse_json(&gen_res.response) {
-                        warn!(error = %err, raw = %gen_res.response, "JSON cleaning failed");
+                    match clean_and_parse_json(&gen_res.response) {
+                        Ok(parsed) => return Ok(parsed),
+                        Err(err) => warn!(error = %err, raw = %gen_res.response, "JSON parse failed, using fallback"),
                     }
                 }
             }

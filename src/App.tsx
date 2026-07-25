@@ -12,7 +12,7 @@ import {
 } from './lib/tauri';
 
 export default function App() {
-  const [folderPath, setFolderPath] = useState('C:/Users/Dhruv Mann/Downloads/Downloads');
+  const [folderPath, setFolderPath] = useState('');
   const [transactions, setTransactions] = useState<FileTransaction[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOllamaConnected, setIsOllamaConnected] = useState(true);
@@ -39,7 +39,7 @@ export default function App() {
         setIsOllamaConnected(info.available ?? true);
         if (info.model) setModelName(info.model);
         if ((info as unknown as { watch_dir?: string }).watch_dir) {
-          setFolderPath((info as unknown as { watch_dir?: string }).watch_dir || 'C:/Users/Dhruv Mann/Downloads/Downloads');
+          setFolderPath((info as unknown as { watch_dir?: string }).watch_dir || '');
         }
       }
     });
@@ -186,7 +186,7 @@ export default function App() {
         <div className="flex items-center gap-6">
           <span className="font-body-sm text-body-sm text-on-surface-variant cursor-default flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-blue-500 opacity-80" />
-            v1.0.4 • {isProcessing ? 'Categorizing files...' : 'Ready to scan'}
+            v0.1.0 • {isProcessing ? 'Categorizing files...' : 'Ready to scan'}
             {processedCount > 0 && ` • ${processedCount} logged`}
           </span>
         </div>

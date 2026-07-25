@@ -75,7 +75,7 @@ pub fn start_debounced_watcher(
 
         for result in sync_rx {
             if !is_active.load(Ordering::Relaxed) {
-                continue;
+                break;
             }
 
             match result {
