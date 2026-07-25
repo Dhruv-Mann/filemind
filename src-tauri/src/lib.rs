@@ -208,6 +208,29 @@ async fn run_batch_processing(
     Ok(count)
 }
 
+#[tauri::command]
+fn launch_external_url(url: String) -> Result<(), String> {
+    #[cfg(target_os = "windows")]
+    {
+        let _ = std::process::Command::new("cmd")
+            .args(["/C", "start", "", &url])
+            .spawn();
+    }
+    #[cfg(target_os = "macos")]
+    {
+        let _ = std::process::Command::new("open")
+            .arg(&url)
+            .spawn();
+    }
+    #[cfg(target_os = "linux")]
+    {
+        let _ = std::process::Command::new("xdg-open")
+            .arg(&url)
+            .spawn();
+    }
+    Ok(())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let is_active = Arc::new(AtomicBool::new(true));
@@ -263,7 +286,8 @@ pub fn run() {
             get_mcp_tools,
             get_transactions,
             undo_transaction,
-            run_batch_processing
+            run_batch_processing,
+            launch_external_url
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

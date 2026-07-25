@@ -1,5 +1,4 @@
 import { invoke } from '@tauri-apps/api/core';
-import { open } from '@tauri-apps/plugin-shell';
 import type { FileTransaction } from '../types';
 
 export const getTransactions = async (): Promise<FileTransaction[]> => {
@@ -37,9 +36,9 @@ export const getMcpTools = async (): Promise<unknown> => {
 
 export const openExternalUrl = async (url: string): Promise<void> => {
   try {
-    await open(url);
+    await invoke('launch_external_url', { url });
   } catch (error) {
-    console.error('Failed to open URL via shell plugin:', error);
+    console.error('Failed to open external URL via Tauri command:', error);
     window.open(url, '_blank');
   }
 };
