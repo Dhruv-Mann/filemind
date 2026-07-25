@@ -1,0 +1,30 @@
+'use client';
+
+import React from 'react';
+import { FolderGit2, ShieldCheck, Heart } from 'lucide-react';
+
+export const Footer: React.FC = () => {
+  return (
+    <footer className="w-full bg-black border-t border-neutral-900 px-6 sm:px-12 py-12 text-neutral-400 text-xs">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex items-center gap-3">
+          <FolderGit2 className="w-4 h-4 text-blue-400" />
+          <span className="text-white font-medium">Local MCP File Organizer</span>
+          <span className="text-neutral-600">•</span>
+          <span>Open Source v0.1.0</span>
+        </div>
+
+        <div className="flex items-center gap-6 text-neutral-400">
+          <a href="#features" className="hover:text-white transition-colors">Features</a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
+          <a href="/downloads/Local_MCP_File_Organizer_0.1.0_x64-setup.exe" download className="hover:text-white transition-colors">Windows .exe</a>
+        </div>
+
+        <div className="flex items-center gap-1.5 text-neutral-500">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Built for local privacy</span>
+        </div>
+      </div>
+    </footer>
+  );
+};
