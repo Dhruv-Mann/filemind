@@ -15,9 +15,24 @@ pub struct AppState {
     pub db: Mutex<Option<Database>>,
 }
 
+/// Resolve directory to monitor.
+/// Priority: WATCH_DIR environment variable -> system Downloads folder -> current folder.
+pub fn get_target_watch_dir() -> PathBuf {
+    if let Ok(override_dir) = std::env::var("WATCH_DIR") {
+        PathBuf::from(override_dir)
+    } else {
+        dirs::download_dir().unwrap_or_else(|| PathBuf::from("."))
+    }
+}
+
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! Welcome to Local MCP File Organizer.", name)
+}
+
+#[tauri::command]
+fn get_watch_directory() -> String {
+    get_target_watch_dir().to_string_lossy().to_string()
 }
 
 #[tauri::command]
@@ -86,6 +101,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             greet,
+            get_watch_directory,
             extract_file_content,
             get_mcp_tools,
             get_transactions,
