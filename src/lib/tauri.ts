@@ -22,6 +22,10 @@ export const undoTransaction = async (id: string): Promise<FileTransaction> => {
   return await invoke<FileTransaction>('undo_transaction', { id });
 };
 
+export const runBatchProcessing = async (): Promise<number> => {
+  return await invoke<number>('run_batch_processing');
+};
+
 export const extractFileContent = async (filePath: string): Promise<string> => {
   return await invoke<string>('extract_file_content', { filePath });
 };
