@@ -83,7 +83,7 @@ impl OllamaClassifier {
             .unwrap_or("unknown");
 
         let prompt = format!(
-            r#"You are an intelligent file organization AI. Analyze the file details and content below to determine a clean, semantic category path for organizing this file.
+            r#"You are an intelligent file organization AI. Analyze the file details and extracted text content below to categorize it.
 
 File Name: "{filename}"
 File Extension: "{extension}"
@@ -92,13 +92,15 @@ Extracted Content / Metadata:
 {content_snippet}
 """
 
-Determine a logical 2-level category path (e.g., "Academics/Transcripts", "Applications/Installers", "Media/Images", "Documents/Reports", "Archives/ZipFiles", "Financials/Invoices").
+CRITICAL RULE FOR SUMMARY:
+The "summary" field MUST be a 1-sentence description based strictly on the TEXT INSIDE the document.
+NEVER say "Organized by file type" or repeat the filename. If text is unreadable, summarize the visual content or metadata purpose.
 
-Respond ONLY with a single JSON object. Do NOT include reasoning, markdown fences, or extra text:
+Respond ONLY with a single JSON object matching this schema. No reasoning or markdown:
 {{
   "category_path": "Category/Subcategory",
   "confidence_score": 0.90,
-  "summary": "One sentence summary describing what this file is.",
+  "summary": "One-sentence description based strictly on the text inside the document.",
   "suggested_filename": "{filename}"
 }}"#
         );
@@ -146,7 +148,8 @@ Respond ONLY with a single JSON object. Do NOT include reasoning, markdown fence
             }
         }
 
-        // Clean fallback: infer category dynamically based on file type without hardcoded keyword rules
+        // Clean fallback adhering strictly to the CRITICAL RULE:
+        // Never say "Organized by file type" and never repeat the filename.
         let generic_category = match extension.to_lowercase().as_str() {
             "pdf" | "docx" | "txt" | "md" => "Documents/Files",
             "exe" | "msi" | "dmg" | "pkg" => "Applications/Installers",
@@ -156,10 +159,29 @@ Respond ONLY with a single JSON object. Do NOT include reasoning, markdown fence
             _ => "Uncategorized/Files",
         };
 
+        let content_lines: Vec<&str> = content_snippet
+            .lines()
+            .map(|l| l.trim())
+            .filter(|l| !l.is_empty() && !l.starts_with("Generic File:") && !l.starts_with("Image File:"))
+            .collect();
+
+        let fallback_summary = if !content_lines.is_empty() {
+            format!("Contains text content: {}", content_lines[0])
+        } else {
+            match extension.to_lowercase().as_str() {
+                "pdf" | "docx" | "txt" | "md" => "Document containing structured text content and metadata.".to_string(),
+                "exe" | "msi" => "Software installer application executable binary.".to_string(),
+                "zip" | "rar" | "7z" => "Compressed archive package containing project files and assets.".to_string(),
+                "png" | "jpg" | "jpeg" | "webp" => "Visual image graphic artifact asset.".to_string(),
+                "mp3" | "wav" | "flac" => "Audio media recording artifact asset.".to_string(),
+                _ => "Data file asset.".to_string(),
+            }
+        };
+
         Ok(ClassificationPayload {
             category_path: generic_category.to_string(),
             confidence_score: 0.75,
-            summary: format!("Organized by file type: {}", filename),
+            summary: fallback_summary,
             suggested_filename: filename.to_string(),
         })
     }
@@ -200,9 +222,10 @@ mod tests {
 
     #[test]
     fn test_clean_and_parse_json_with_thinking_and_markdown() {
-        let raw = "<think>\nThe user provided a timetable PDF. I should categorize it as Academics/Timetables.\n</think>\n```json\n{\n  \"category_path\": \"Academics/Timetables\",\n  \"confidence_score\": 0.95,\n  \"summary\": \"Semester 3 Timetable\",\n  \"suggested_filename\": \"TimeTableSem3.pdf\"\n}\n```";
+        let raw = "<think>\nThe user provided a timetable PDF. I should categorize it as Academics/Timetables.\n</think>\n```json\n{\n  \"category_path\": \"Academics/Timetables\",\n  \"confidence_score\": 0.95,\n  \"summary\": \"Semester 3 Timetable detailing course schedules\",\n  \"suggested_filename\": \"TimeTableSem3.pdf\"\n}\n```";
         let parsed = clean_and_parse_json(raw).expect("Parse JSON with thinking");
         assert_eq!(parsed.category_path, "Academics/Timetables");
         assert_eq!(parsed.confidence_score, 0.95);
+        assert_eq!(parsed.summary, "Semester 3 Timetable detailing course schedules");
     }
 }
