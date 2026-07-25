@@ -3,17 +3,25 @@ import { Header } from './components/Header';
 import { ActivityFeed } from './components/ActivityFeed';
 import { SystemStatus } from './components/SystemStatus';
 import type { FileTransaction } from './types';
-import { getTransactions } from './lib/tauri';
+import { getTransactions, getModelInfo } from './lib/tauri';
 
 export default function App() {
   const [transactions, setTransactions] = useState<FileTransaction[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [modelName, setModelName] = useState('qwen3.5:4b');
 
   useEffect(() => {
     // Load initial transaction ledger history from SQLite backend
     getTransactions().then((txs) => {
       if (Array.isArray(txs)) {
         setTransactions(txs);
+      }
+    });
+
+    // Fetch active model configuration
+    getModelInfo().then((info) => {
+      if (info && info.model) {
+        setModelName(info.model);
       }
     });
   }, []);
@@ -39,7 +47,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
-      <Header onRunBatch={handleRunBatch} isProcessing={isProcessing} />
+      <Header onRunBatch={handleRunBatch} isProcessing={isProcessing} modelName={modelName} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
@@ -47,7 +55,7 @@ export default function App() {
         </div>
 
         <div>
-          <SystemStatus />
+          <SystemStatus modelName={modelName} />
         </div>
       </main>
     </div>

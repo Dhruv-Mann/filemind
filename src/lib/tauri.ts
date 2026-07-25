@@ -10,6 +10,14 @@ export const getTransactions = async (): Promise<FileTransaction[]> => {
   }
 };
 
+export const getModelInfo = async (): Promise<{ model: string; available: boolean }> => {
+  try {
+    return await invoke<{ model: string; available: boolean }>('get_model_info');
+  } catch {
+    return { model: 'qwen3.5:4b', available: false };
+  }
+};
+
 export const undoTransaction = async (id: string): Promise<FileTransaction> => {
   return await invoke<FileTransaction>('undo_transaction', { id });
 };

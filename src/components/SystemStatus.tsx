@@ -1,6 +1,10 @@
 import { ShieldCheck, Wrench, FileSearch } from 'lucide-react';
 
-export function SystemStatus() {
+interface SystemStatusProps {
+  modelName?: string;
+}
+
+export function SystemStatus({ modelName = 'qwen3.5:4b' }: SystemStatusProps) {
   return (
     <aside className="space-y-6">
       {/* Privacy & System Config Panel */}
@@ -17,7 +21,7 @@ export function SystemStatus() {
           </div>
           <div className="flex justify-between py-1 border-b border-slate-800/50">
             <span>Local LLM</span>
-            <span className="font-mono text-slate-200">llama3.2:3b-instruct</span>
+            <span className="font-mono text-slate-200">{modelName}</span>
           </div>
           <div className="flex justify-between py-1 border-b border-slate-800/50">
             <span>DB Engine</span>

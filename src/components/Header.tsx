@@ -3,9 +3,10 @@ import { FolderCheck, Cpu, RefreshCw } from 'lucide-react';
 interface HeaderProps {
   onRunBatch: () => void;
   isProcessing: boolean;
+  modelName?: string;
 }
 
-export function Header({ onRunBatch, isProcessing }: HeaderProps) {
+export function Header({ onRunBatch, isProcessing, modelName = 'qwen3.5:4b' }: HeaderProps) {
   return (
     <header className="border-b border-slate-800 bg-slate-900/60 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sticky top-0 z-50">
       <div className="flex items-center space-x-3">
@@ -26,7 +27,7 @@ export function Header({ onRunBatch, isProcessing }: HeaderProps) {
       <div className="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-end">
         <div className="flex items-center gap-2 text-xs bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
           <Cpu className="w-4 h-4 text-indigo-400 animate-pulse" />
-          <span className="text-slate-300">Ollama: <strong className="text-white">llama3.2:3b</strong></span>
+          <span className="text-slate-300">Ollama: <strong className="text-white font-mono">{modelName}</strong></span>
         </div>
 
         <button

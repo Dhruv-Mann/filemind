@@ -1,3 +1,4 @@
+pub mod classifier;
 pub mod db;
 pub mod error;
 pub mod extractor;
@@ -9,10 +10,13 @@ use std::sync::Arc;
 use tauri::Manager;
 use tokio::sync::Mutex;
 
+use classifier::OllamaClassifier;
 use db::{Database, FileTransaction};
+use mcp::ClassificationPayload;
 
 pub struct AppState {
     pub db: Mutex<Option<Database>>,
+    pub classifier: OllamaClassifier,
 }
 
 /// Resolve directory to monitor.
@@ -36,9 +40,42 @@ fn get_watch_directory() -> String {
 }
 
 #[tauri::command]
+async fn get_model_info(state: tauri::State<'_, Arc<AppState>>) -> Result<serde_json::Value, String> {
+    let available = state.classifier.is_available().await;
+    let model_name = state.classifier.get_model_name().to_string();
+    Ok(serde_json::json!({
+        "model": model_name,
+        "available": available
+    }))
+}
+
+#[tauri::command]
 fn extract_file_content(file_path: String) -> Result<String, String> {
     let path = PathBuf::from(file_path);
     extractor::extract_content(&path).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn classify_text(
+    content: String,
+    state: tauri::State<'_, Arc<AppState>>,
+) -> Result<ClassificationPayload, String> {
+    let default_taxonomy = vec![
+        "Financials/Invoices",
+        "Financials/Receipts",
+        "Documents/Reports",
+        "Documents/Contracts",
+        "Personal/Identity",
+        "Software/Code",
+        "Media/Images",
+        "_Needs_Review",
+    ];
+
+    state
+        .classifier
+        .classify_document(&content, &default_taxonomy)
+        .await
+        .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
@@ -75,6 +112,7 @@ async fn undo_transaction(
 pub fn run() {
     let app_state = Arc::new(AppState {
         db: Mutex::new(None),
+        classifier: OllamaClassifier::new(),
     });
 
     let state_clone = app_state.clone();
@@ -102,7 +140,9 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             greet,
             get_watch_directory,
+            get_model_info,
             extract_file_content,
+            classify_text,
             get_mcp_tools,
             get_transactions,
             undo_transaction
