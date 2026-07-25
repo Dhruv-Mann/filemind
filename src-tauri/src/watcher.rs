@@ -1,4 +1,4 @@
-use notify::{RecursiveMode, Watcher};
+use notify::RecursiveMode;
 use notify_debouncer_mini::{new_debouncer, DebouncedEvent};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -91,10 +91,8 @@ pub fn start_debounced_watcher(
                         }
                     }
                 }
-                Err(errs) => {
-                    for err in errs {
-                        error!(error = %err, "File watcher debouncer error");
-                    }
+                Err(err) => {
+                    error!(error = %err, "File watcher debouncer error");
                 }
             }
         }
