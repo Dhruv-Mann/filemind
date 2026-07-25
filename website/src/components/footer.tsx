@@ -8,10 +8,7 @@ export const Footer: React.FC = () => {
     <footer className="w-full bg-black border-t border-neutral-900 px-6 sm:px-12 py-12 text-neutral-400 text-xs">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
-          <FolderGit2 className="w-4 h-4 text-blue-400" />
-          <span className="text-white font-medium">Local MCP File Organizer</span>
-          <span className="text-neutral-600">•</span>
-          <span>Open Source v0.1.0</span>
+          <span className="text-white font-medium">Built by Dhruv Mann</span>
         </div>
 
         <div className="flex items-center gap-6 text-neutral-400">
