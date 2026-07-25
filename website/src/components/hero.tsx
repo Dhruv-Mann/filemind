@@ -13,16 +13,6 @@ export const Hero: React.FC = () => {
 
       {/* Hero Content Overlay */}
       <div className="relative z-10 max-w-4xl py-16 my-auto">
-        {/* Top Minimal Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs font-mono mb-6"
-        >
-          <span>v0.1.0 • Tauri v2 • MCP Protocol</span>
-        </motion.div>
-
         {/* Hero Title matching Google Antigravity aesthetic */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
