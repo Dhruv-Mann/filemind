@@ -13,11 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Download Local MCP File Organizer — Privacy-First AI File Sorting',
+  title: 'Download Filemind — Privacy-First Local AI File Organizer',
   description: 'A 100% private, local-first desktop application that automatically categorizes and organizes your files using local Ollama LLM and Model Context Protocol.',
-  keywords: ['Tauri', 'Rust', 'MCP', 'Model Context Protocol', 'File Organizer', 'Ollama', 'Local AI'],
+  keywords: ['Filemind', 'Tauri', 'Rust', 'MCP', 'Model Context Protocol', 'File Organizer', 'Ollama', 'Local AI'],
   openGraph: {
-    title: 'Download Local MCP File Organizer',
+    title: 'Download Filemind — Local MCP File Organizer',
     description: '100% Private, Local-First Semantic File Organizer powered by Ollama and Tauri v2.',
     type: 'website',
   },
