@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { Download, ChevronRight, Copy, Check, Terminal, Cpu, ShieldCheck, Database, BookOpen, HardDrive, Lock } from 'lucide-react';
+import { Download, ChevronRight, Copy, Check, Terminal, Cpu, ShieldCheck, Database, BookOpen, HardDrive, Lock, Apple, Monitor } from 'lucide-react';
 
 export default function DocsPage() {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
@@ -102,16 +102,16 @@ export default function DocsPage() {
 
           {/* Section: Overview */}
           <section id="overview" className="space-y-4 scroll-mt-28">
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Local MCP File Organizer Documentation</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Filemind Documentation</h1>
             <p className="text-base text-neutral-400 leading-relaxed">
-              Local MCP File Organizer is a 100% private, local-first desktop application engineered with Tauri v2 (Rust backend + React frontend). It automatically categorizes and organizes your <code className="font-mono text-xs bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800 text-blue-400">~/Downloads</code> directory using local LLMs (via Ollama) and exposes a Model Context Protocol (MCP) server for Claude Desktop and Cursor IDE.
+              Filemind is a 100% private, local-first desktop application engineered with Tauri v2 (Rust backend + React frontend). It automatically categorizes and organizes your <code className="font-mono text-xs bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800 text-blue-400">~/Downloads</code> directory (or any other custom target directory) using local LLMs (via Ollama) and exposes a Model Context Protocol (MCP) server for Claude Desktop and Cursor IDE.
             </p>
           </section>
 
           {/* Section: Installation */}
           <section id="installation" className="space-y-6 scroll-mt-28 pt-8 border-t border-neutral-900">
             <h2 className="text-2xl font-semibold text-white tracking-tight">Installation</h2>
-            <p className="text-sm text-neutral-400">Download the pre-compiled installer for your target architecture:</p>
+            <p className="text-sm text-neutral-400">Download the pre-compiled installer executable for your target operating system:</p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <a
@@ -120,20 +120,26 @@ export default function DocsPage() {
                 className="p-5 rounded-xl bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-colors flex items-center justify-between group"
               >
                 <div>
-                  <div className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">Windows x64 Installer (.exe)</div>
-                  <div className="text-xs text-neutral-500 mt-1">64-bit Intel / AMD processors</div>
+                  <div className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors flex items-center gap-2">
+                    <Monitor className="w-4 h-4 text-blue-400" />
+                    <span>Windows Installer (filemind.exe)</span>
+                  </div>
+                  <div className="text-xs text-neutral-500 mt-1">64-bit Intel / AMD processors (x64)</div>
                 </div>
                 <Download className="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" />
               </a>
 
               <a
-                href="/api/download?arch=arm64"
-                download="filemind.exe"
+                href="/api/download?platform=mac"
+                download="filemind.dmg"
                 className="p-5 rounded-xl bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-colors flex items-center justify-between group"
               >
                 <div>
-                  <div className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">Windows ARM64 Installer (.exe)</div>
-                  <div className="text-xs text-neutral-500 mt-1">ARM64 architecture devices</div>
+                  <div className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors flex items-center gap-2">
+                    <Apple className="w-4 h-4 text-neutral-400 group-hover:text-white" />
+                    <span>macOS Installer (filemind.dmg)</span>
+                  </div>
+                  <div className="text-xs text-neutral-500 mt-1">Apple Silicon &amp; Intel Mac devices</div>
                 </div>
                 <Download className="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" />
               </a>
@@ -157,22 +163,22 @@ export default function DocsPage() {
                 <tbody className="divide-y divide-neutral-900 text-neutral-300">
                   <tr>
                     <td className="p-3.5 font-medium text-white">Operating System</td>
-                    <td className="p-3.5">Windows 10 64-bit (Build 19041+)</td>
-                    <td className="p-3.5">Windows 11 x64 or ARM64</td>
+                    <td className="p-3.5">Windows 10 64-bit or macOS 12+</td>
+                    <td className="p-3.5">Windows 11 or macOS 14+ (M1/M2/M3/M4)</td>
                   </tr>
                   <tr>
                     <td className="p-3.5 font-medium text-white">RAM</td>
                     <td className="p-3.5">8 GB System RAM</td>
-                    <td className="p-3.5">16 GB+ System RAM</td>
+                    <td className="p-3.5">16 GB+ Unified Memory / RAM</td>
                   </tr>
                   <tr>
                     <td className="p-3.5 font-medium text-white">Local LLM Engine</td>
                     <td className="p-3.5">Ollama v0.3.0+ (<code className="font-mono text-blue-400">http://localhost:11434</code>)</td>
-                    <td className="p-3.5">Ollama v0.3.14+ with GPU acceleration</td>
+                    <td className="p-3.5">Ollama with qwen3.5:4b model</td>
                   </tr>
                   <tr>
                     <td className="p-3.5 font-medium text-white">Disk Space</td>
-                    <td className="p-3.5">500 MB (App) + 3 GB for Ollama model</td>
+                    <td className="p-3.5">30 MB App Binary + ~3 GB for Ollama model</td>
                     <td className="p-3.5">SSD Storage</td>
                   </tr>
                 </tbody>
@@ -184,14 +190,14 @@ export default function DocsPage() {
           <section id="ollama-setup" className="space-y-6 scroll-mt-28 pt-8 border-t border-neutral-900">
             <h2 className="text-2xl font-semibold text-white tracking-tight">Local Ollama AI Configuration</h2>
             <p className="text-sm text-neutral-400">
-              The application connects to Ollama running locally at <code className="font-mono text-xs bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800 text-emerald-400">http://localhost:11434</code>. Pull the recommended models using terminal:
+              The application connects to Ollama running locally at <code className="font-mono text-xs bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800 text-emerald-400">http://localhost:11434</code>. Pull the default 4B model via terminal:
             </p>
 
             <div className="relative rounded-xl bg-neutral-950 border border-neutral-800 overflow-hidden font-mono text-xs">
               <div className="flex items-center justify-between px-4 py-2 bg-neutral-900/60 border-b border-neutral-800 text-neutral-400">
                 <span>Terminal Command</span>
                 <button
-                  onClick={() => copyToClipboard('ollama pull llama3.2:3b-instruct-q4_K_M\nollama pull bge-small-en-v1.5', 'ollama')}
+                  onClick={() => copyToClipboard('ollama pull qwen3.5:4b', 'ollama')}
                   className="hover:text-white transition-colors flex items-center gap-1"
                 >
                   {copiedCode === 'ollama' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
@@ -199,27 +205,24 @@ export default function DocsPage() {
                 </button>
               </div>
               <pre className="p-4 text-neutral-200 overflow-x-auto leading-relaxed">
-{`# 1. Install Llama 3.2 3B Instruct model for semantic document classification
-ollama pull llama3.2:3b-instruct-q4_K_M
-
-# 2. Install BGE Small embedding model for vector search indexing
-ollama pull bge-small-en-v1.5`}
+{`# Pull the default Qwen 3.5 4B model for pure local semantic categorization
+ollama pull qwen3.5:4b`}
               </pre>
             </div>
           </section>
 
           {/* Section: LLM & Embeddings */}
           <section id="model-selection" className="space-y-6 scroll-mt-28 pt-8 border-t border-neutral-900">
-            <h2 className="text-2xl font-semibold text-white tracking-tight">LLM & Embedding Models</h2>
+            <h2 className="text-2xl font-semibold text-white tracking-tight">LLM &amp; Content Classification</h2>
             <p className="text-sm text-neutral-400 leading-relaxed">
-              The hybrid classification pipeline combines file extension rules, keyword extraction, and vector embedding similarity with <code className="font-mono text-xs bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800 text-blue-400">bge-small-en-v1.5</code>.
+              The classification pipeline extracts raw text content (PDF, DOCX, TXT, MD, Images) and passes a 2,000-character snippet to <code className="font-mono text-xs bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800 text-blue-400">qwen3.5:4b</code> for 2-level category determination.
             </p>
 
             <div className="p-4 rounded-xl border border-neutral-800 bg-neutral-950 space-y-3 text-xs">
               <div className="font-semibold text-white">Classification Pipeline:</div>
               <ul className="space-y-2 text-neutral-400 list-disc list-inside">
                 <li><strong className="text-neutral-200">Text Extractors:</strong> Custom Rust text parsers for PDF, DOCX, TXT, and Markdown files.</li>
-                <li><strong className="text-neutral-200">Confidence Routing:</strong> Score &ge; 0.70 routes directly to target category (e.g., <code className="font-mono text-blue-400">Documents/Invoices/</code>). Score &lt; 0.70 routes to <code className="font-mono text-amber-400">_Needs_Review/</code>.</li>
+                <li><strong className="text-neutral-200">Confidence Routing:</strong> Score &ge; 0.70 routes directly to target category (e.g., <code className="font-mono text-blue-400">Financials/Invoices/</code>). Score &lt; 0.70 routes to <code className="font-mono text-amber-400">_Needs_Review/</code>.</li>
               </ul>
             </div>
           </section>
@@ -228,12 +231,11 @@ ollama pull bge-small-en-v1.5`}
           <section id="mcp-overview" className="space-y-6 scroll-mt-28 pt-8 border-t border-neutral-900">
             <h2 className="text-2xl font-semibold text-white tracking-tight">Model Context Protocol (MCP)</h2>
             <p className="text-sm text-neutral-400 leading-relaxed">
-              Local MCP File Organizer implements the official Model Context Protocol over stdio (JSON-RPC 2.0). Exposed MCP tools include:
+              Filemind implements the official Model Context Protocol over stdio (JSON-RPC 2.0). Exposed MCP tools include:
             </p>
             <ul className="text-xs text-neutral-300 space-y-2 list-disc list-inside bg-neutral-950 p-4 rounded-xl border border-neutral-800 font-mono">
-              <li><strong className="text-blue-400">organize_downloads:</strong> Trigger batch classification and reorganization.</li>
-              <li><strong className="text-emerald-400">query_file_taxonomy:</strong> Inspect file taxonomy and folder structure.</li>
-              <li><strong className="text-amber-400">undo_last_transaction:</strong> Revert the last file move operation.</li>
+              <li><strong className="text-blue-400">extract_content:</strong> Extract plain text snippets from target document files.</li>
+              <li><strong className="text-emerald-400">move_and_index:</strong> Safely move files to category directories with timestamp collision resolution.</li>
             </ul>
           </section>
 
@@ -241,14 +243,14 @@ ollama pull bge-small-en-v1.5`}
           <section id="claude-desktop" className="space-y-6 scroll-mt-28 pt-8 border-t border-neutral-900">
             <h2 className="text-2xl font-semibold text-white tracking-tight">Claude Desktop Configuration</h2>
             <p className="text-sm text-neutral-400">
-              Add the Local MCP File Organizer executable path to your <code className="font-mono text-xs bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800 text-blue-400">claude_desktop_config.json</code>:
+              Add the Filemind executable command to your <code className="font-mono text-xs bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800 text-blue-400">claude_desktop_config.json</code>:
             </p>
 
             <div className="relative rounded-xl bg-neutral-950 border border-neutral-800 overflow-hidden font-mono text-xs">
               <div className="flex items-center justify-between px-4 py-2 bg-neutral-900/60 border-b border-neutral-800 text-neutral-400">
                 <span>claude_desktop_config.json</span>
                 <button
-                  onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "local-file-organizer": {\n      "command": "C:\\\\Program Files\\\\Local MCP File Organizer\\\\local-mcp-file-organizer.exe",\n      "args": ["--mcp-stdio"]\n    }\n  }\n}`, 'mcp-config')}
+                  onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "filemind": {\n      "command": "filemind",\n      "args": []\n    }\n  }\n}`, 'mcp-config')}
                   className="hover:text-white transition-colors flex items-center gap-1"
                 >
                   {copiedCode === 'mcp-config' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
@@ -258,9 +260,9 @@ ollama pull bge-small-en-v1.5`}
               <pre className="p-4 text-neutral-200 overflow-x-auto leading-relaxed">
 {`{
   "mcpServers": {
-    "local-file-organizer": {
-      "command": "C:\\\\Program Files\\\\Local MCP File Organizer\\\\local-mcp-file-organizer.exe",
-      "args": ["--mcp-stdio"]
+    "filemind": {
+      "command": "filemind",
+      "args": []
     }
   }
 }`}
@@ -279,7 +281,7 @@ ollama pull bge-small-en-v1.5`}
               <div className="flex items-center justify-between px-4 py-2 bg-neutral-900/60 border-b border-neutral-800 text-neutral-400">
                 <span>.cursor/mcp.json</span>
                 <button
-                  onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "local-organizer": {\n      "command": "local-mcp-file-organizer",\n      "args": ["--mcp-stdio"]\n    }\n  }\n}`, 'cursor-config')}
+                  onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "filemind": {\n      "command": "filemind",\n      "args": []\n    }\n  }\n}`, 'cursor-config')}
                   className="hover:text-white transition-colors flex items-center gap-1"
                 >
                   {copiedCode === 'cursor-config' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
@@ -289,9 +291,9 @@ ollama pull bge-small-en-v1.5`}
               <pre className="p-4 text-neutral-200 overflow-x-auto leading-relaxed">
 {`{
   "mcpServers": {
-    "local-organizer": {
-      "command": "local-mcp-file-organizer",
-      "args": ["--mcp-stdio"]
+    "filemind": {
+      "command": "filemind",
+      "args": []
     }
   }
 }`}
@@ -301,7 +303,7 @@ ollama pull bge-small-en-v1.5`}
 
           {/* Section: SQLite Ledger & Undo */}
           <section id="sqlite-ledger" className="space-y-6 scroll-mt-28 pt-8 border-t border-neutral-900">
-            <h2 className="text-2xl font-semibold text-white tracking-tight">SQLite Transaction Ledger & Safety</h2>
+            <h2 className="text-2xl font-semibold text-white tracking-tight">SQLite Transaction Ledger &amp; Safety</h2>
             <p className="text-sm text-neutral-400 leading-relaxed">
               Every automated file move operation performed by the file watcher or MCP tool is recorded inside a local SQLite ledger database (`rusqlite`). In case of an unexpected relocation, any transaction can be reverted with 1-click single-file or batch undo.
             </p>
