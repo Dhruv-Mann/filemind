@@ -7,12 +7,12 @@ import { DownloadPills } from './download-pills';
 
 export const Hero: React.FC = () => {
   return (
-    <section className="relative min-h-[85vh] flex flex-col justify-center px-6 sm:px-12 lg:px-24 overflow-hidden bg-black text-white selection:bg-blue-500 selection:text-white">
+    <section className="relative flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-24 overflow-hidden bg-black text-white selection:bg-blue-500 selection:text-white">
       {/* Dynamic Cursor-Following Swarm Canvas Background */}
       <ParticleCanvas />
 
       {/* Hero Content Overlay */}
-      <div className="relative z-10 max-w-4xl py-16 my-auto">
+      <div className="relative z-10 max-w-4xl py-6 my-auto">
         {/* Hero Title matching Google Antigravity aesthetic */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
