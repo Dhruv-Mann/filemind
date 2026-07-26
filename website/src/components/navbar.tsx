@@ -3,22 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { Download, Code2, BookOpen } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 export const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-black/80 backdrop-blur-xl border-b border-neutral-900 px-6 sm:px-12 py-4 flex items-center justify-between">
-      {/* Brand Logo */}
-      <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
-        <Link href="/" className="flex items-center gap-3 text-white font-medium text-base group">
-          <div className="w-7 h-7 rounded-md bg-neutral-900 border border-neutral-700 flex items-center justify-center group-hover:border-neutral-500 transition-colors">
-            <span className="text-xs font-mono font-bold text-white">FM</span>
-          </div>
-          <span className="tracking-tight font-semibold text-white">
-            Filemind
-          </span>
-        </Link>
-      </motion.div>
+      {/* Left section intentionally blank */}
+      <div />
 
       {/* Nav Links */}
       <div className="flex items-center gap-6">
