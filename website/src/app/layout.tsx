@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: 'Download Filemind — Privacy-First Local AI File Organizer',
   description: 'A 100% private, local-first desktop application that automatically categorizes and organizes your files using local Ollama LLM and Model Context Protocol.',
   keywords: ['Filemind', 'Tauri', 'Rust', 'MCP', 'Model Context Protocol', 'File Organizer', 'Ollama', 'Local AI'],
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     title: 'Download Filemind — Local MCP File Organizer',
     description: '100% Private, Local-First Semantic File Organizer powered by Ollama and Tauri v2.',
