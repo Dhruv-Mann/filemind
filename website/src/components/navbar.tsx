@@ -15,7 +15,7 @@ export const Navbar: React.FC = () => {
             <span className="text-xs font-mono font-bold text-white">FM</span>
           </div>
           <span className="tracking-tight font-semibold text-white">
-            Filemind <span className="text-neutral-500 font-normal">Local MCP</span>
+            Filemind
           </span>
         </Link>
       </motion.div>
