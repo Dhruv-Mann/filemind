@@ -44,3 +44,5 @@ next-env.d.ts
 /public/downloads/*
 *.exe
 
+AGENTS.md 
+CLAUDE.md
